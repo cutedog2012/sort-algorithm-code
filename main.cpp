@@ -1,6 +1,7 @@
 #include<iostream>
 #include <unistd.h>
 #include "sort.h"
+err *errPtr=NULL;
 void ReadData(vector<int> &vec)
 {
 	int buf;
@@ -21,59 +22,72 @@ void DumpData(vector<int> &vec)
 int main(int argc, char *argv[])
 {
 	int opt;
-	while((opt=getopt(argc, argv, "bqcim"))!=-1)
+	while((opt=getopt(argc, argv, "bqcimhsn"))!=-1)
 	{
+		vector<int> vec;
+		ReadData(vec);
+		
 		switch(opt)
 		{
 			case 'b':
 			{
 				cout<<"Bubble sort working\n";
-				vector<int> vec;
-				ReadData(vec);
 				Bubble_sort(vec);
-				DumpData(vec);
 				break;
 			}
 			case 'q':
 			{
 				cout<<"Quick sort working\n";
-				vector<int> vec;
-				ReadData(vec);
 				Quick_sort(vec, 0, vec.size()-1);
-				DumpData(vec);
 				break;
 			}
 			case 'c':
 			{
 				cout<<"Choose sort working\n";
-				vector<int> vec;
-				ReadData(vec);
 				Choose_sort(vec);
-				DumpData(vec);
 				break;
 			}
                 	case 'i':
                 	{
                 		cout<<"Insertion sort working\n";
-                		vector<int> vec;
-                		ReadData(vec);
         			Insert_sort(vec);
-                		DumpData(vec);
                 		break;
                 	}
 			case 'm':
 			{
 				cout<<"Merge sort working\n";
-				vector<int> vec;
-				ReadData(vec);
 				Merge_sort(vec, 0, vec.size()-1);
-				DumpData(vec);
+				break;
+			}
+			case 'h':
+			{
+				cout<<"Heap sort working\n";
+				Heap_sort(vec);
+				break;
+			}
+			case 's':
+			{
+				cout<<"Shell sort working\n";
+				Shell_sort(vec);
+				break;
+			}
+			case 'n':
+			{
+				cout<<"Count sort working\n";
+				cout<<"Please input the max number:\n";
+				int range;
+				cin>>range;
+				Count_sort(vec, range);
 				break;
 			}
                 	default:
-				cout<<"Unknown options\n";
+				errPtr=new err("Unknown option");
 				break;
 		}
+		if(errPtr==NULL)
+			DumpData(vec);
+		else
+			cout<<errPtr->getErrMsg()<<endl;
 			
 	}
 	return 0;
